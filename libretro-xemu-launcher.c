@@ -139,7 +139,7 @@ void retro_run(void)
 bool retro_load_game(const struct retro_game_info *info)
 {
    // Launch without the gui if available (xemu).
-   char command[512] = "antimicrox --tray & xemu -full-screen -dvd_path";
+   char command[512] = "~/.config/retroarch/system/antimicrox.AppImage --tray || flatpak run io.github.antimicrox.antimicrox --tray || antimicrox --tray & xemu -full-screen -dvd_path";
 
    // Check if there is content to load.
    if (info != NULL && info->path != NULL && info->path[0] != '\0') {
@@ -154,7 +154,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    // Flatpak
    printf("libretro-xemu-launcher: Xemu not found. Attempting Flatpak...\n");
-   strcpy(command, "flatpak run io.github.antimicrox.antimicrox --tray & flatpak run app.xemu.xemu -full-screen -dvd_path");
+   strcpy(command, "flatpak run app.xemu.xemu -full-screen -dvd_path");
    if (info != NULL && info->path != NULL && info->path[0] != '\0') {
       // Execute with --batch.
       sprintf(command, "%s \"%s\"", command, info->path);
@@ -166,7 +166,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    // AppImage
    printf("libretro-xemu-launcher: Xemu not found. Attempting AppImage...\n");
-   strcpy(command, "~/.config/retroarch/system/antimicrox.AppImage --tray & ~/.config/retroarch/system/xemu.AppImage -full-screen -dvd_path");
+   strcpy(command, "~/.config/retroarch/system/xemu.AppImage -full-screen -dvd_path");
    if (info != NULL && info->path != NULL && info->path[0] != '\0') {
       // Execute with --batch.
       sprintf(command, "%s \"%s\"", command, info->path);
